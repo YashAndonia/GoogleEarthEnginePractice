@@ -1,0 +1,19 @@
+// Load the SRTM image.
+var srtm = ee.Image('CGIAR/SRTM90_V4');
+
+// Apply an algorithm to an image.
+var slope = ee.Terrain.slope(srtm);
+
+
+// Compute the mean elevation in the polygon.
+//notice this is an auto function, plus the thing inside the function is a javascript object which follows the terms fo the function requirements.
+
+var meanDict = srtm.reduceRegion({
+  reducer: ee.Reducer.mean(),//type of statistice, here we ar3e getting the mean of the values in the hoghlight area
+  geometry: polygon,
+  scale: 90
+});
+
+// Get the mean from the dictionary and print it.
+var mean = meanDict.get('elevation');
+print('Mean elevation', mean);
